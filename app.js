@@ -13,7 +13,22 @@ app.use(body_parser.urlencoded({ extended: true }));
 app.use(body_parser.json());
 app.use("/updatepage", updateRouter);
 app.use((req, res, next) => {
+  const clientInfo = req.header["user-agent"];
+
+  const ip = req.ip;
+
+  const queryParams = req.query;
+
+  const requestBody = req.body;
+
+  const logdoc = {
+    client: clientInfo,
+    ip: ip,
+    queryParams: queryParams,
+    requestBody: requestBody,
+  };
   console.log(req.method + " : " + req.url);
+  console.log(logdoc);
   next();
 });
 
